@@ -1,6 +1,6 @@
 # Text Imp
 
-Python bindings for iMessage and Contacts database access.
+Python bindings for iMessage and Contacts database access. Requires MacOS and full file system access to run.
 
 ## Requirements
 
