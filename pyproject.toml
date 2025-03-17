@@ -4,10 +4,10 @@ build-backend = "maturin"
 
 [project]
 name = "text_imp"
-version = "0.1.1"
+version = "0.1.3"
 description = "Python bindings for iMessage and Contacts database access"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"},
+    {name = "Adam Gluck", email = "contact@adamgluck.com"},
 ]
 requires-python = ">=3.8"
 readme = "README.md"
@@ -40,15 +40,14 @@ dependencies = [
 "Documentation" = "https://github.com/yourusername/text_imp#readme"
 
 [tool.maturin]
-features = ["pyo3/extension-module"]
-module-name = "text_imp._core"
 python-source = "."
-manifest-path = "Cargo.toml"
-release = true
+module-name = "text_imp._core"
+features = ["pyo3/extension-module"]
 strip = true
-manylinux = "2014"
-universal2 = true
-platforms = ["macos", "linux"]
+macos-deployment-target = "11.0"
+include = ["text_imp/*.py", "README.md", "LICENSE"]
+bindings = "pyo3"
+manifest-path = "Cargo.toml"
 
 [tool.ruff]
 select = ["E", "F", "I", "N", "W"]
