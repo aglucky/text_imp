@@ -1,6 +1,6 @@
 [package]
 name = "text_imp"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 authors = ["Adam Gluck <contact@adamgluck.com>"]
 description = "Python bindings for iMessage and Contacts database access"
