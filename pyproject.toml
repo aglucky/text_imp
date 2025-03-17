@@ -47,15 +47,6 @@ manifest-path = "Cargo.toml"
 release = true
 strip = true
 manylinux = "2014"
-target = "universal2-apple-darwin"
-compatibility = "manylinux2014"
-targets = [
-    "cp38-cp38",
-    "cp39-cp39",
-    "cp310-cp310",
-    "cp311-cp311",
-    "cp312-cp312"
-]
 universal2 = true
 platforms = ["macos", "linux"]
 
