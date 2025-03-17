@@ -4,79 +4,64 @@ Python bindings for iMessage and Contacts database access.
 
 ## Installation
 
-This package requires Python 3.8 or later. We recommend using [uv](https://github.com/astral-sh/uv) for package management.
+This package requires Python 3.8 or later. We use [uv](https://github.com/astral-sh/uv) for package management.
 
 ```bash
-uv pip install text-imp
+uv pip install text_imp
 ```
 
 ## Development Setup
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/text-imp.git
-cd text-imp
+git clone https://github.com/yourusername/text_imp.git
+cd text_imp
 ```
 
-2. Set up a virtual environment and install dependencies:
+1. Install uv if you haven't already:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+1. Create a virtual environment and install dependencies:
 ```bash
 uv venv
 source .venv/bin/activate  # On Unix/macOS
 # or
 .venv\Scripts\activate  # On Windows
-```
 
-3. Install development dependencies:
-```bash
-uv pip install -e ".[dev]"
+# Install the package in editable mode with all dependencies
+uv pip install -e .
 ```
 
 ## Building from Source
 
-This package uses Maturin for building the Rust extensions. To build from source:
+The package uses Maturin for building the Rust extensions. To build from source in one line:
 
 ```bash
-uv pip install maturin
-maturin develop
+uv pip install -e .
+```
+
+Or if you want to build and verify the installation:
+
+```bash
+uv pip install -e . && uv run --with text_imp --no-project -- python -c "import text_imp"
 ```
 
 ## Usage
 
-Basic usage example:
-
-```python
-import text_imp
-
-# Get recent messages
-from datetime import datetime, timedelta
-since = datetime.now() - timedelta(days=1)
-messages = text_imp.get_messages(since=since)
-
-# Print messages
-for msg in messages:
-    print(f"[{msg.timestamp}] {msg.sender}: {msg.text}")
-```
-
-For more examples, check out the [examples directory](examples/basic_usage.py) which includes:
-- Listing recent messages
-- Searching message content
-- Working with contacts
-- Managing group chats
+See `example.py`
 
 ## Requirements
 
 - Python >= 3.8
-- Rust (for building from source)
 - macOS (for iMessage database access)
-
-## License
-
-[Insert License Information]
+- [uv](https://github.com/astral-sh/uv) package manager
 
 ## Project Structure
 
-```
-text-imp/
+```txt
+text_imp/
 ├── src/           # Rust source code
 ├── text_imp/      # Python package directory
 ├── examples/      # Usage examples

@@ -519,19 +519,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "impy"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "imessage-database",
- "polars",
- "pyo3",
- "pyo3-polars",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "indexmap"
 version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1573,6 +1560,19 @@ dependencies = [
  "once_cell",
  "rustix",
  "windows-sys",
+]
+
+[[package]]
+name = "text_imp"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "imessage-database",
+ "polars",
+ "pyo3",
+ "pyo3-polars",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

@@ -3,7 +3,7 @@ requires = ["maturin>=1.0,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "text-imp"
+name = "text_imp"
 version = "0.1.0"
 description = "Python bindings for iMessage and Contacts database access"
 authors = [
@@ -11,9 +11,49 @@ authors = [
 ]
 requires-python = ">=3.8"
 readme = "README.md"
+license = {text = "MIT"}
+keywords = ["imessage", "contacts", "macos", "database"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Rust",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "polars>=0.20.0",
+    "pyarrow>=14.0.1",
+    "python-dotenv>=1.0.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/text_imp"
+"Bug Tracker" = "https://github.com/yourusername/text_imp/issues"
+"Documentation" = "https://github.com/yourusername/text_imp#readme"
 
 [tool.maturin]
 features = ["pyo3/extension-module"]
 module-name = "text_imp._core"
 python-source = "text_imp"
-manifest-path = "Cargo.toml" 
+manifest-path = "Cargo.toml"
+
+[tool.ruff]
+select = ["E", "F", "I", "N", "W"]
+target-version = "py38"
+line-length = 88
+
+[tool.ruff.isort]
+known-first-party = ["text_imp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra -q" 

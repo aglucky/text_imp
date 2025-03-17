@@ -3,6 +3,15 @@ from pathlib import Path
 from typing import Union, List
 import polars as pl
 
+DEFAULT_CONTACTS_DB_PATH = [
+    *Path.home()
+    .joinpath("Library/Application Support/AddressBook/Sources")
+    .rglob("AddressBook-v22.abcddb"),
+    Path.home().joinpath(
+        "Library/Application Support/AddressBook/AddressBook-v22.abcddb"
+    ),
+]
+
 
 def normalize_id(contact_id: str) -> str:
     """
@@ -31,7 +40,9 @@ def normalize_id(contact_id: str) -> str:
 
 
 def get_contacts(
-    db_paths: Union[str, Path, List[Union[str, Path]], List[Path]],
+    db_paths: Union[
+        str, Path, List[Union[str, Path]], List[Path]
+    ] = DEFAULT_CONTACTS_DB_PATH,
 ) -> pl.DataFrame:
     """
     Get contacts information from the AddressBook database(s).
