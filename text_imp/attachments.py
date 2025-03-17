@@ -1,6 +1,8 @@
-from .impy import get_attachments
-import polars as pl
 import os
+
+import polars as pl
+
+from ._core import get_attachments
 
 MESSAGE_DB_PATH = os.path.expanduser("~/Library/Messages/chat.db")
 
