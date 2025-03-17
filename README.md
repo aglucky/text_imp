@@ -65,6 +65,11 @@ print(contacts)
 attachments = text_imp.get_attachments()
 print(attachments)
 
+# To join with messages table, use guid version of
+# attachments with message guid
+attachments_with_id = get_attachments_with_guid()
+print(attachments_with_id)
+
 # Get chats
 chats = text_imp.get_chats()
 print(chats)
