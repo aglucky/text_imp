@@ -69,10 +69,54 @@ print(attachments)
 chats = text_imp.get_chats()
 print(chats)
 
+# Get  handles
+handles = text_imp.get_handles()
+print(handles)
+
 # Get chat handles
-handles = text_imp.get_chat_handles()
+chat_handles = text_imp.get_chat_handles()
 print(handles)
 ```
+
+## Example Data
+
+Each function returns a Polars DataFrame with structured data. Here are examples of what the returned data looks like:
+
+### Messages DataFrame
+
+**Columns:** `date, text, is_from_me, handle_id, chat_id, guid, thread_originator_guid, thread_originator_part, service_type, variant, expressive, announcement_type, num_attachments, is_deleted, group_title, is_edited, is_tapback, is_reply, num_replies, date_delivered, date_read, is_url, has_replies, body`
+
+![Message DataFrame Example](examples/screenshots/message.png)
+
+### Contacts DataFrame
+
+**Columns:** `contact_id, first_name, last_name, state, city, normalized_contact_id`
+
+![Contacts DataFrame Example](examples/screenshots/contacts.png)
+
+### Attachments DataFrame
+
+**Columns:** `rowid, filename, uti, mime_type, transfer_name, emoji_description, is_sticker, path, extension, display_filename, file_size`
+
+![Attachments DataFrame Example](examples/screenshots/attach.png)
+
+### Chats DataFrame
+
+**Columns:** `rowid, chat_identifier, service_name, display_name, name, resolved_display_name`
+
+![Chats DataFrame Example](examples/screenshots/chat.png)
+
+### Handles DataFrame
+
+**Columns:** `rowid, id, person_centric_id`
+
+![Handles DataFrame Example](examples/screenshots/handle.png)
+
+### Chat Handles DataFrame
+
+**Columns:** `chat_id, handle_id`
+
+![Chat Handles DataFrame Example](examples/screenshots/chat_handle.png)
 
 ## Project Structure
 
@@ -113,7 +157,3 @@ uv pip install text_imp
 ```bash
 uv pip install -e .
 ```
-
-## License
-
-MIT License - see LICENSE file for details.
