@@ -37,6 +37,12 @@ jobs:
         maturin build --release --target universal2-apple-darwin --strip --features macos --bindings pyo3
         ls -la target/wheels/
     
+    - name: Inspect wheel
+      run: |
+        unzip -l target/wheels/*.whl
+        pip install target/wheels/*.whl
+        python -c "import sys; print(sys.path); import text_imp; print(text_imp.__file__); print(dir(text_imp))"
+    
     - name: Test wheel
       run: |
         pip install target/wheels/*.whl

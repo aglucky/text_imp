@@ -43,7 +43,7 @@ dependencies = [
 
 [tool.maturin]
 python-source = "."
-module-name = "text_imp._core"
+module-name = "text_imp"
 features = ["pyo3/extension-module"]
 strip = true
 macos-deployment-target = "11.0"
