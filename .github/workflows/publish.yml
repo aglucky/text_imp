@@ -34,7 +34,7 @@ jobs:
     
     - name: Build wheel
       run: |
-        maturin build --release --target universal2-apple-darwin --strip --features macos
+        maturin build --release --target universal2-apple-darwin --strip --features macos --bindings pyo3
         ls -la target/wheels/
     
     - name: Test wheel

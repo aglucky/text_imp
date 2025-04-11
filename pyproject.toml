@@ -48,6 +48,7 @@ features = ["pyo3/extension-module"]
 strip = true
 macos-deployment-target = "11.0"
 include = ["text_imp/*.py", "README.md", "LICENSE"]
+sdist-include = ["text_imp/*.py", "README.md", "LICENSE"]
 bindings = "pyo3"
 manifest-path = "Cargo.toml"
 
