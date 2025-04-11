@@ -5,28 +5,59 @@ on:
     types: [published]
 
 jobs:
-  build-and-publish:
+  build:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+
     steps:
     - uses: actions/checkout@v4
     
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
-        
-    - name: Install Rust toolchain
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
-      
-    - name: Install maturin
+    
+    - name: Install build dependencies
       run: |
-        pip install maturin
-        
-    - name: Build
+        python -m pip install --upgrade pip
+        pip install maturin wheel setuptools
+    
+    - name: Build wheel
       run: |
-        maturin build --release --features macos
-        
+        maturin build --release --universal2 --strip --features macos
+        ls -la target/wheels/
+    
+    - name: Test wheel
+      run: |
+        pip install target/wheels/*.whl
+        python -c "import text_imp; print(text_imp.__file__); print(dir(text_imp))"
+    
+    - name: Upload wheel
+      uses: actions/upload-artifact@v4
+      with:
+        path: target/wheels/*.whl
+        name: wheels
+
+  publish:
+    needs: build
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download wheels
+      uses: actions/download-artifact@v4
+      with:
+        name: wheels
+        path: target/wheels
+    
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
-        password: ${{ secrets.PYPI_API_TOKEN }} 
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        verbose: true 
