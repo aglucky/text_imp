@@ -9,13 +9,17 @@ repository = "https://github.com/yourusername/text_imp"
 readme = "README.md"
 keywords = ["imessage", "contacts", "macos", "database"]
 categories = ["database", "os::macos-specific"]
+build = "build.rs"
+
+[features]
+default = []
+macos = ["imessage-database", "core-foundation"]
 
 [lib]
 name = "text_imp"
 crate-type = ["cdylib"]
 
 [dependencies]
-imessage-database = "2.3.0"
 polars = { version = "0.36.2", features = ["dtype-datetime", "dtype-date", "dtype-time", "dtype-duration"] }
 serde_json = "1.0.138"
 serde = { version = "1.0", features = ["derive"] }
@@ -24,4 +28,8 @@ pyo3 = { version = "0.20.3", features = ["extension-module"] }
 pyo3-polars = "0.10.0"
 
 [target.'cfg(target_os = "macos")'.dependencies]
-core-foundation = "0.9.4"
+imessage-database = { version = "2.3.0", optional = true }
+core-foundation = { version = "0.9.4", optional = true }
+
+[build-dependencies]
+cc = "1.0"

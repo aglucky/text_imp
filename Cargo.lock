@@ -1576,6 +1576,7 @@ dependencies = [
 name = "text_imp"
 version = "0.1.4"
 dependencies = [
+ "cc",
  "chrono",
  "core-foundation",
  "imessage-database",
