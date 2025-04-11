@@ -45,7 +45,8 @@ jobs:
       run: |
         wheel_file=$(ls target/wheels/*.whl)
         pip install "$wheel_file"
-        python -c 'import text_imp; assert hasattr(text_imp, "get_messages"); assert hasattr(text_imp, "get_attachments"); assert hasattr(text_imp, "get_chats"); assert hasattr(text_imp, "get_chat_handles"); assert hasattr(text_imp, "get_handles"); print("All required functions are present"); print("Module location:", text_imp.__file__); print("Available functions:", dir(text_imp))'
+        python -c 'import text_imp; print("Module location:", text_imp.__file__); print("Available functions:", dir(text_imp))'
+        python -c 'from text_imp import get_messages, get_attachments, get_chats, get_chat_handles, get_handles; print("Successfully imported all functions")'
     
     - name: Upload wheel
       uses: actions/upload-artifact@v4
