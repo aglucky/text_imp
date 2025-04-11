@@ -5,16 +5,7 @@ on:
     types: [published]
 
 jobs:
-  check-platform:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check platform
-        run: |
-          echo "This package is macOS-only. Skipping non-macOS builds."
-          exit 1
-
   build:
-    needs: check-platform
     runs-on: macos-latest
     strategy:
       matrix:
