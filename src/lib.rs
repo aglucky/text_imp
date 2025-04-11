@@ -22,7 +22,7 @@ impl std::fmt::Display for CustomError {
 }
 
 #[pymodule]
-fn _core(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
+fn text_imp(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(get_messages, m)?)?;
     m.add_function(wrap_pyfunction!(get_attachments, m)?)?;
     m.add_function(wrap_pyfunction!(get_chats, m)?)?;

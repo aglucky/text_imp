@@ -3,13 +3,16 @@ name: Publish Python Package
 on:
   push:
     branches: [ main ]
+  release:
+    types: [created]
 
 jobs:
   build:
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.11', '3.12']
 
     steps:
     - uses: actions/checkout@v4
@@ -18,57 +21,60 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
     
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: x86_64-apple-darwin,aarch64-apple-darwin
     
-    - name: Install Rust targets
-      run: |
-        rustup target add x86_64-apple-darwin
-        rustup target add aarch64-apple-darwin
+    - name: Cache Rust dependencies
+      uses: Swatinem/rust-cache@v2
     
     - name: Install build dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install maturin wheel setuptools
+        pip install maturin wheel setuptools pytest
     
     - name: Build wheel
       run: |
         maturin build --release --target universal2-apple-darwin --strip --features macos --bindings pyo3
         ls -la target/wheels/
     
-    - name: Inspect wheel
+    - name: Install and test wheel
       run: |
-        unzip -l target/wheels/*.whl
-        pip install target/wheels/*.whl
-        python -c "import sys; print(sys.path); import text_imp; print(text_imp.__file__); print(dir(text_imp))"
-    
-    - name: Test wheel
-      run: |
-        pip install target/wheels/*.whl
-        python -c "import text_imp; print(text_imp.__file__); print(dir(text_imp))"
+        wheel_file=$(ls target/wheels/*.whl)
+        pip install "$wheel_file"
+        python -c 'import text_imp; assert hasattr(text_imp, "get_messages"); assert hasattr(text_imp, "get_attachments"); assert hasattr(text_imp, "get_chats"); assert hasattr(text_imp, "get_chat_handles"); assert hasattr(text_imp, "get_handles"); print("All required functions are present"); print("Module location:", text_imp.__file__); print("Available functions:", dir(text_imp))'
     
     - name: Upload wheel
       uses: actions/upload-artifact@v4
       with:
         path: target/wheels/*.whl
-        name: wheels
+        name: wheels-py${{ matrix.python-version }}
 
   publish:
     needs: build
     runs-on: macos-latest
+    if: github.event_name == 'release' && github.event.action == 'created'
     
     steps:
     - uses: actions/checkout@v4
     
-    - name: Download wheels
+    - name: Download all wheels
       uses: actions/download-artifact@v4
       with:
-        name: wheels
+        pattern: wheels-*
         path: target/wheels
+        merge-multiple: true
+    
+    - name: Display structure of downloaded files
+      run: ls -R target/wheels
     
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
-        verbose: true 
+        packages-dir: target/wheels
+        verbose: true
+        skip-existing: true 
