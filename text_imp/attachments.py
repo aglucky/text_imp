@@ -2,7 +2,7 @@ import os
 
 import polars as pl
 
-from text_imp import get_attachments
+from .text_imp import get_attachments
 
 MESSAGE_DB_PATH = os.path.expanduser("~/Library/Messages/chat.db")
 
