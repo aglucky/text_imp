@@ -44,7 +44,7 @@ dependencies = [
 [tool.maturin]
 python-source = "."
 module-name = "text_imp"
-features = ["pyo3/extension-module"]
+features = ["pyo3/extension-module", "macos"]
 strip = true
 macos-deployment-target = "11.0"
 include = ["text_imp/*.py", "README.md", "LICENSE"]
