@@ -8,12 +8,12 @@ MESSAGE_DB_PATH = os.path.expanduser("~/Library/Messages/chat.db")
 
 
 def get_attachments_with_guid():
-    attachmentDf = get_attachments()
+    attachment_df = get_attachments()
 
-    guidQuery = """
+    guid_query = """
         SELECT ROWID, guid 
         FROM attachment
     """
-    guidDf = pl.read_database_uri(query=guidQuery, uri=f"sqlite://{MESSAGE_DB_PATH}")
+    guid_df = pl.read_database_uri(query=guid_query, uri=f"sqlite://{MESSAGE_DB_PATH}")
 
-    return attachmentDf.join(guidDf, left_on="rowid", right_on="ROWID", how="left")
+    return attachment_df.join(guid_df, left_on="rowid", right_on="ROWID", how="left")

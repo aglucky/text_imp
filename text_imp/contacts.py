@@ -1,6 +1,8 @@
 import sqlite3
+from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Union, List
+from typing import List, Union
+
 import polars as pl
 
 DEFAULT_CONTACTS_DB_PATH = [
@@ -39,6 +41,11 @@ def normalize_id(contact_id: str) -> str:
         return numbers  # Non traditional phone numbers
 
 
+def coredata_to_datetime(coredata_timestamp):
+    coredata_epoch = datetime(2001, 1, 1)
+    return coredata_epoch + timedelta(seconds=coredata_timestamp)
+
+
 def get_contacts(
     db_paths: Union[
         str, Path, List[Union[str, Path]], List[Path]
@@ -67,10 +74,13 @@ def get_contacts(
         try:
             conn = sqlite3.connect(db_path)
             fields = """
+                r.Z_PK as primary_key,
                 COALESCE(r.ZFIRSTNAME, '') as first_name,
                 COALESCE(r.ZLASTNAME, '') as last_name,
                 COALESCE(a.ZSTATE, '') as state,
-                COALESCE(a.ZCITY, '') as city
+                COALESCE(a.ZCITY, '') as city,
+                r.ZCREATIONDATE as creation_date,
+                r.ZMODIFICATIONDATE as modification_date
                 FROM ZABCDRECORD as r
                 LEFT JOIN ZABCDPOSTALADDRESS as a on r.Z_PK = a.ZOWNER
             """
@@ -105,7 +115,15 @@ def get_contacts(
             .with_columns(
                 pl.col("contact_id")
                 .map_elements(normalize_id, return_dtype=pl.Utf8)
-                .alias("normalized_contact_id")
+                .alias("normalized_contact_id"),
+                pl.col("creation_date")
+                .map_elements(coredata_to_datetime)
+                .dt.strftime("%Y-%m-%d %H:%M:%S")
+                .alias("creation_date"),
+                pl.col("modification_date")
+                .map_elements(coredata_to_datetime)
+                .dt.strftime("%Y-%m-%d %H:%M:%S")
+                .alias("modification_date"),
             )
         )
     return pl.DataFrame()

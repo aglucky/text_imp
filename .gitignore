@@ -3,5 +3,6 @@ __pycache__/
 dist/
 build/
 target/
-
 .env
+.DS_Store
+text_imp/*.so

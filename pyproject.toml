@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "text_imp"
-version = "0.1.4"
+version = "0.2.0"
 description = "Python bindings for iMessage and Contacts database access"
 authors = [
     {name = "Adam Gluck", email = "contact@adamgluck.com"},
@@ -13,23 +13,6 @@ requires-python = ">=3.8"
 readme = "README.md"
 license = {text = "MIT"}
 keywords = ["imessage", "contacts", "macos", "database"]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: MacOS :: MacOS X",
-    "Operating System :: Microsoft :: Windows",
-    "Operating System :: POSIX :: Linux",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Rust",
-    "Topic :: Database",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-]
 dependencies = [
     "polars>=0.20.0",
     "pyarrow>=14.0.1",
@@ -37,9 +20,7 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/yourusername/text_imp"
-"Bug Tracker" = "https://github.com/yourusername/text_imp/issues"
-"Documentation" = "https://github.com/yourusername/text_imp#readme"
+"Homepage" = "https://github.com/adamgluck/text_imp"
 
 [tool.maturin]
 python-source = "."
@@ -59,8 +40,3 @@ line-length = 88
 
 [tool.ruff.isort]
 known-first-party = ["text_imp"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-addopts = "-ra -q" 
